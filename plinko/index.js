@@ -30,11 +30,13 @@ function addPlinkos() {
     //addSeparators(cols, spacing)
 }
 
+let boundary;
+
 function addBoundary() {
     console.log(app.view.width)
-    let boundary = new Boundary(app.view.width / 2, app.view.height + 25, app.view.width, 50)
-    //let leftBoundary = new Boundary(125, app.view.height / 2, 50, app.view.height)
-    //let rightBoundary = new Boundary(405, app.view.height / 2, 50, app.view.height)
+    boundary = new Boundary(0, 500, app.view.width, 50)
+    // let leftBoundary = new Boundary(225, 200, 50, app.view.height)
+    //let rightBoundary = new Boundary(300, 50, 50, app.view.height)
 }
 
 function addSeparators(cols, spacing) {
@@ -53,15 +55,14 @@ function randomStart() {
 
 let frameCount = 0 
 
-//addBoundary()
-addPlinkos()
+addBoundary()
+//addPlinkos()
 
 
 app.ticker.add( _ => { 
     Engine.update(engine)
     if (frameCount % 60 == 0) {
         let start = randomStart()
-        //console.log(start)
         particles.push(new Particle(start, 0, 10, {isStatic: false, restitution: 0.8, friction: 0}))
     }
 
@@ -76,5 +77,7 @@ app.ticker.add( _ => {
             i--
         }
     })
+
+    
     
 })

@@ -13,15 +13,25 @@ export class Boundary {
     }
     physicBody() {
         this.body = Bodies.rectangle(this.x, this.y, this.w, this.h, this.options);
+        //Matter.Body.translate(this.body, {x:0, y:0} )
         World.add(world, this.body)
     }
     graphicTexture() {
         this.graph = new PIXI.Graphics();
-        this.graph.beginFill(0xeeeeee);
-        this.graph.drawRect(this.x, this.y, this.w, this.h);
+        this.graph.lineStyle(2, 0xFFFFFF, 1);
+        this.graph.drawRect(0,0, this.w, this.h);
         this.graph.pivot.y = this.h / 2
-        this.graph.pivot.x = this.w / 2
+        this.graph.pivot.y = this.h / 2
+        this.graph.x = this.x
+        this.graph.y = this.y
+        // this.graph.beginFill(0xe0e0e0);
+
+        // this.graph.pivot.x = this.w / 2
+        // this.graph.y = this.y
+        // this.graph.x = this.x
         app.stage.addChild(this.graph)
+        // window.gr = this.graph
+        window.bd = this.body
     }
     create() {
         return {
