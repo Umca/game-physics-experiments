@@ -1,11 +1,12 @@
 import { Bodies, World, world, app } from './constants.js'
 
 export class Particle {
-    constructor(x, y, r , options){
+    constructor(x, y, r , options, isTinted){
         this.x = x;
         this.y = y;
         this.r = r;
         this.options = options;
+        this.isTinted= isTinted
         this.create();
     }
     physicBody(){
@@ -15,8 +16,14 @@ export class Particle {
     graphicTexture() {
         this.graph = new PIXI.Graphics();
         this.graph.beginFill(0xffffff);
-        this.graph.drawCircle(this.x, this.y, this.r);
+        this.graph.drawCircle(0, 0, this.r);
+        this.graph.x = this.x
+        this.graph.y = this.y
         app.stage.addChild(this.graph)
+
+        if(this.isTinted){
+            this.graph.tint = Math.random() * 0xFFFFFF
+        }
     }
     create() {
         return {

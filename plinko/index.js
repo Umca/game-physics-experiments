@@ -3,11 +3,16 @@ import { Particle } from './js/particle.js'
 import { Boundary } from './js/boundary.js'
 
 window.app = app
+world.gravity.y = 1.5
 
+let frameCount = 0 
 let particles = []
 let plinkos = []
+let maxCount = 30
 
-world.gravity.y = 1.5
+function findPlinko(id){
+    return plinkos.filter(plinko => plinko.body.id == id && plinko.body.label == 'Plinko')
+}
 
 function addPlinkos() { 
     let rows = 20
@@ -23,20 +28,15 @@ function addPlinkos() {
                 x = k * spacing
             }
             y = i * spacing  + spacing
-            plinkos.push(new Particle(x, y, 4, { isStatic: true }))
+            let plinko = new Particle(x, y, 4, { isStatic: true })
+            plinko.body.label = 'Plinko'
+            plinkos.push(plinko)
         }
     }
-
-    //addSeparators(cols, spacing)
 }
 
-let boundary;
-
 function addBoundary() {
-    console.log(app.view.width)
-    boundary = new Boundary(0, 500, app.view.width, 50)
-    // let leftBoundary = new Boundary(225, 200, 50, app.view.height)
-    //let rightBoundary = new Boundary(300, 50, 50, app.view.height)
+    let boundary = new Boundary(250, 625, app.view.width, 50)
 }
 
 function addSeparators(cols, spacing) {
@@ -53,18 +53,36 @@ function randomStart() {
     return Math.round(Math.random() * (app.view.width-200) + 100)
 }
 
-let frameCount = 0 
 
 addBoundary()
-//addPlinkos()
+addPlinkos()
+addSeparators(12, 45)
 
+Matter.Events.on(engine, 'collisionStart', (e) => {
+    e.pairs.forEach( pair => {
+        let pl = findPlinko(pair.bodyA.id)[0]
+        if(pl){
+            pl.graph.tint = Math.random() * 0xFFFFFF
+            setTimeout(_ => {
+                pl.graph.tint = 0xFFFFFF
+            }, 100)
+        }
+        
+    })
+
+}) 
+
+Engine.run(engine)
 
 app.ticker.add( _ => { 
-    Engine.update(engine)
-    if (frameCount % 60 == 0) {
+
+    if (frameCount % 60 == 0 && maxCount > 0) {
         let start = randomStart()
-        particles.push(new Particle(start, 0, 10, {isStatic: false, restitution: 0.8, friction: 0}))
+        particles.push(new Particle(start, 0, 10, {isStatic: false, restitution: 0.8, friction: 0}, true))
+        maxCount--
     }
+
+    
 
     frameCount++
 
@@ -78,6 +96,4 @@ app.ticker.add( _ => {
         }
     })
 
-    
-    
 })
