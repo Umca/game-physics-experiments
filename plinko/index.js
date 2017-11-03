@@ -3,7 +3,7 @@ import { Particle } from './js/particle.js'
 import { Boundary } from './js/boundary.js'
 
 window.app = app
-world.gravity.y = 1.5
+
 
 let frameCount = 0 
 let particles = []
@@ -28,7 +28,7 @@ function addPlinkos() {
                 x = k * spacing
             }
             y = i * spacing  + spacing
-            let plinko = new Particle(x, y, 4, { isStatic: true })
+            let plinko = new Particle(x, y, 16, { isStatic: true })
             plinko.body.label = 'Plinko'
             plinkos.push(plinko)
         }
@@ -72,13 +72,13 @@ Matter.Events.on(engine, 'collisionStart', (e) => {
 
 }) 
 
-Engine.run(engine)
+Engine.run(engine, 1000 / 60)
 
 app.ticker.add( _ => { 
 
     if (frameCount % 60 == 0 && maxCount > 0) {
         let start = randomStart()
-        particles.push(new Particle(start, 0, 10, {isStatic: false, restitution: 0.8, friction: 0}, true))
+        particles.push(new Particle(start, 0, 8, {isStatic: false, restitution: 0.8, friction: 0}, true))
         maxCount--
     }
 
