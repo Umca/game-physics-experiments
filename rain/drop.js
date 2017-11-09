@@ -10,23 +10,27 @@ export class Drop extends PIXI.Sprite{
     }
     constructor(parent, renderer){
         super(Drop.createTexture(renderer))
-        this.x = this.random(0, 500)
-        this.y = this.random(-500, -50)
+        //this.x = this.random(0, 500)
+        this.x = 500
+        //this.y = this.random(-500, -50)
+        this.y = 100
         this.z = this.random(0, 20)
         this.yspeed = this.map(this.z, 0, 20, 4, 10)
         this.length = this.map(this.z, 0, 20, 10, 20)
         this.parent = parent
         this.renderer = renderer
 
-        //this.rotation = 0.5
+        this.rotation = 0.5
 
         this.parent.addChild(this)
     }
 
     fall(){
         this.y = this.y + this.yspeed
+        this.x = Math.sin(this.rotation) * this.y 
         this.yspeed = this.yspeed + 0.1 
-        this.checkYPosition()
+        //this.checkYPosition()
+
     }
 
     checkYPosition(){
