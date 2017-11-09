@@ -6,7 +6,7 @@ const particleContainer = new PIXI.particles.ParticleContainer(500, {scale: true
 app.stage.addChild(particleContainer)
 
 let drops = []
-let amount = 1
+let amount = 300
 
 window.app = app;
 window.drops = drops;
@@ -15,13 +15,17 @@ for (let i = 0; i < amount; i++){
      let drop = new Drop(particleContainer, app.renderer)
      drops.push(drop)
 }
+let count = 0
 
-// app.ticker.add( _ => {
+app.ticker.add( _ => {
 
-//     drops.forEach( drop => {
-//         drop.fall()
-//         console.log(drop.x)
-//         debugger
-//     })
+    if (count % 10 == 0) {
+        drops.forEach( drop => {
+            drop.fall()
+        })
+        count = 0
+    }
 
-// })
+    count++
+
+})

@@ -10,33 +10,49 @@ export class Drop extends PIXI.Sprite{
     }
     constructor(parent, renderer){
         super(Drop.createTexture(renderer))
-        //this.x = this.random(0, 500)
-        this.x = 500
-        //this.y = this.random(-500, -50)
-        this.y = 100
+        this.x = this.random(0, 600)
+        this.y = this.random(-500, -50)
         this.z = this.random(0, 20)
         this.yspeed = this.map(this.z, 0, 20, 4, 10)
         this.length = this.map(this.z, 0, 20, 10, 20)
+        this.width = this.map(this.z , 0, 20, 1, 3)
         this.parent = parent
         this.renderer = renderer
 
-        this.rotation = 0.5
+        this.rotation = 0.3
 
         this.parent.addChild(this)
+        this.changePosition()
+    }
+    changePosition() {
+        if (this.rotation !== 0) {
+            this.x = this.random(0, 600)
+        }
     }
 
     fall(){
         this.y = this.y + this.yspeed
-        this.x = Math.sin(this.rotation) * this.y 
+
+        if (this.rotation !== 0) {
+            if (this.rotation < 0) {
+                this.x = this.x + Math.sin(this.rotation) * this.height
+            } else {
+                this.x = this.x - Math.sin(this.rotation) * this.height
+            }
+        }
         this.yspeed = this.yspeed + 0.1 
-        //this.checkYPosition()
+        this.checkYPosition()
 
     }
 
     checkYPosition(){
-        if( this.y > 600){
-            this.y = this.random(-100, -200)
+        if( this.y > 600 ){
+            this.x = this.random(0, 600)
+            this.y = this.random(-500, -50)
             this.yspeed = this.random(4, 8)
+        }
+        if (this.rotation !== 0) {
+            this.changePosition()
         }
     }
 
