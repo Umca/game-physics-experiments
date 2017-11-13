@@ -1,4 +1,4 @@
-export default class Ship extends PIXI.Container{
+export default class Pony extends PIXI.Container{
     constructor({ 
         container,
         x,
@@ -9,6 +9,7 @@ export default class Ship extends PIXI.Container{
         this.container = container
         this.container.addChild(this)
 
+        this.addPonyWin()
         this.addPonyLeft()
 
         this.pivot.x = this.width / 2
@@ -51,10 +52,62 @@ export default class Ship extends PIXI.Container{
         this.scale.x = this.scale.x * -1
     }
 
+    changeTextureToWin() {
+        debugger
+        TweenMax.to(this.ponyWin, 0, {
+            alpha: 1
+        })
+        TweenMax.to(this.ponyLeft, 0, {
+            alpha: 0
+        })
+        
+    }
+
     addPonyLeft() {
         this.ponyLeft = new PIXI.Sprite(PIXI.utils.TextureCache['pony'])
         this.ponyLeft.x = 0
         this.ponyLeft.y = 0
         this.addChild(this.ponyLeft)
+    }
+
+    addPonyWin() {
+        this.ponyWin = new PIXI.Sprite(PIXI.utils.TextureCache['pony_win'])
+        this.ponyWin.x = 0
+        this.ponyWin.y = 0
+        this.addChild(this.ponyWin)
+        this.ponyWin.alpha = 0
+        this.ponyWin.scale.set(0.65)
+    }
+
+    hits(flower) {
+        let lemonCenterX = this.x
+        let lemonCenterY = this.y
+
+        let flowerCenterX = flower.x
+        let flowerCenterY = flower.y
+
+        let lemonWidthHalf = this.width / 2
+        let lemonHeightHalf = this.height / 2
+
+        let flowerWidthHalf = flower.width / 2
+        let flowerHeightHalf = flower.height / 2
+
+        let vx = lemonCenterX - flowerCenterX
+        let vy = lemonCenterY - flowerCenterY
+
+        let combinedWidth = flowerWidthHalf + lemonWidthHalf
+        let combinedHeight = flowerHeightHalf + lemonHeightHalf
+
+        if (Math.abs(vx) < combinedWidth) {
+            if (Math.abs(vy) < combinedHeight) {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            return false
+        }
+
+        return false
     }
 }
