@@ -30,8 +30,7 @@ export default class Flower extends PIXI.Sprite{
                 this.rotation = 0
                 this.visible = false
                 this.toDelete = true
-                this.remove()
-                
+                this.remove()  
             }
         })
        

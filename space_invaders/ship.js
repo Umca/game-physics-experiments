@@ -53,14 +53,12 @@ export default class Pony extends PIXI.Container{
     }
 
     changeTextureToWin() {
-        debugger
         TweenMax.to(this.ponyWin, 0, {
             alpha: 1
         })
         TweenMax.to(this.ponyLeft, 0, {
             alpha: 0
         })
-        
     }
 
     addPonyLeft() {
