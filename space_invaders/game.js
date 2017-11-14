@@ -183,9 +183,11 @@ export default class Game{
                         this.end = false
                         this.addElements()
                     }
-                    this.removeStartScreen()
-                    this.play()
-                    this.startSubscription.unsubscribe() 
+                    setTimeout(() => {
+                        this.removeStartScreen()
+                        this.startSubscription.unsubscribe() 
+                        this.play()
+                    }, 1500)
                 }
             })
             
